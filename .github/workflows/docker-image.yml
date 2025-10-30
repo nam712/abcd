@@ -19,24 +19,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Setup .NET nếu backend là .NET
+      # 2️⃣ Setup .NET
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
 
-      # 3️⃣ Restore & build backend
+      # 3️⃣ Restore & Build Backend
       - name: Restore & Build Backend
         run: |
           cd Astra
           dotnet restore
           dotnet build --no-restore
 
-      # 4️⃣ Run unit tests
+      # 4️⃣ Run Unit Tests (tự build nếu cần)
       - name: Run Unit Tests
-        run: dotnet test ./Backend.Tests/Backend.Tests.csproj --no-build --verbosity normal
+        run: dotnet test ./Backend.Tests/Backend.Tests.csproj --verbosity normal
 
       # 5️⃣ Docker Build Check - Backend
       - name: Build Backend Docker Image
-        run: docker build -t temp-api ./Astra
+        run: docker build -t temp-api ./Astra/backend
 
+      # 6️⃣ Docker Build Check - Frontend (nếu có)
+      - name: Build Frontend Docker Image
+        run: docker build -t temp-frontend ./Astra/frontend
