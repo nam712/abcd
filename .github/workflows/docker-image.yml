@@ -1,0 +1,44 @@
+name: CI/CD
+
+# Kích hoạt cho push trên main và PR
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    name: Build, Test & Docker Check
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Setup .NET nếu backend là .NET
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      # 3️⃣ Restore & build backend
+      - name: Restore & Build Backend
+        run: |
+          cd Astra
+          dotnet restore
+          dotnet build --no-restore
+
+      # 4️⃣ Run unit tests
+      - name: Run Backend Unit Tests
+        run: |
+          cd Bsckend.Tests
+          dotnet test --no-build --verbosity normal
+
+      # 5️⃣ Docker Build Check - Backend
+      - name: Build Backend Docker Image
+        run: docker build -t temp-api ./Astra
+
