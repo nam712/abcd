@@ -34,7 +34,7 @@ jobs:
 
       # 4️⃣ Run unit tests
       - name: Run Unit Tests
-        run: dotnet test ./Bsckend.Tests/Bsckend.Tests.csproj --no-build --verbosity normal
+        run: dotnet test ./Backend.Tests/Backend.Tests.csproj --no-build --verbosity normal
 
       # 5️⃣ Docker Build Check - Backend
       - name: Build Backend Docker Image
