@@ -33,10 +33,8 @@ jobs:
           dotnet build --no-restore
 
       # 4️⃣ Run unit tests
-      - name: Run Backend Unit Tests
-        run: |
-          cd Bsckend.Tests
-          dotnet test --no-build --verbosity normal
+      - name: Run Unit Tests
+        run: dotnet test ./Bsckend.Tests/Bsckend.Tests.csproj --no-build --verbosity normal
 
       # 5️⃣ Docker Build Check - Backend
       - name: Build Backend Docker Image
